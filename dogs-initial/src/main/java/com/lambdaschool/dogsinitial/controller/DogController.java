@@ -1,11 +1,15 @@
-package com.lambdaschool.dogsinitial;
+package com.lambdaschool.dogsinitial.controller;
 
+import com.lambdaschool.dogsinitial.model.Dog;
+import com.lambdaschool.dogsinitial.DogsinitialApplication;
+import com.lambdaschool.dogsinitial.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 
@@ -35,5 +39,16 @@ public class DogController
         ArrayList<Dog> rtnDogs = DogsinitialApplication.ourDogList.
                 findDogs(d -> d.getBreed().toUpperCase().equals(breed.toUpperCase()));
         return new ResponseEntity<>(rtnDogs, HttpStatus.OK);
+    }
+
+    // localhost:2019/data/dogtable
+    @GetMapping(value = "/dogtable")
+    public ModelAndView displayEmployeeTable()
+    {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("dogs");
+        mav.addObject("doglist", DogsinitialApplication.ourDogList.dogList);
+
+        return mav;
     }
 }
